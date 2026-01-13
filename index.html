@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapbox Custom PNG Markers with Popups</title>
+
+  <!-- Mapbox CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+
+  <style>
+    body { margin: 0; }
+    #map { width: 100%; height: 100vh; }
+
+    /* Optional: style the popup content */
+    .popup img {
+      width: 200px;
+      height: auto;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .popup h3 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+    }
+    .popup p {
+      margin: 0;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Mapbox JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+<script>
+  // =========================
+  // 1️⃣ Mapbox Access Token
+  // =========================
+  mapboxgl.accessToken = 'pk.eyJ1IjoianVsYWxpa2UiLCJhIjoiY21rMng2M3JmMGNlbzNkczh6N25yMHU4YiJ9.d89_Ajx_045WA9iAscNlJA';
+
+  // =========================
+  // 2️⃣ Create the Map
+  // =========================
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/julalike/cmk3ao3b700f401s6aja35jrh', // e.g., 'mapbox://styles/username/styleid'
+    center: [10.10578, 54.34664],   // starting center (Kiel example)
+    zoom: 5
+  });
+
+  map.on('load', () => {
+
+    // =========================
+    // 3️⃣ Marker Data
+    // =========================
+    const markers = [
+      {
+        name: 'pin1',                       // unique name for the marker
+        icon: 'images/2.png',               // PNG icon for marker
+        coords: [10.10578, 54.34664],       // [longitude, latitude]
+        title: '',                      // popup title
+        image: 'images/popup-2.jpeg',     // popup image
+        description: ''
+      },
+      {
+        name: 'pin2',
+        icon: 'images/3.png',
+        coords: [10.1092, 54.3088],
+        title: '',
+        image: 'images/popup-3.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin3',
+        icon: 'images/4.png',
+        coords: [12.3746, 51.3417],
+        title: '',
+        image: 'images/popup-4.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin4',
+        icon: 'images/5.png',
+        coords: [14.8346, 56.8533],
+        title: '',
+        image: 'images/popup-5.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin5',
+        icon: 'images/6.png',
+        coords: [11.581, 50.9297],
+        title: '',
+        image: 'images/popup-6.jpg',
+        description: ''
+      },
+      {
+        name: 'pin6',
+        icon: 'images/7.png',
+        coords: [14.8054, 56.8897],
+        title: '',
+        image: 'images/popup-7.jpg',
+        description: ''
+      },
+      {
+        name: 'pin7',
+        icon: 'images/8.png',
+        coords: [11.5821, 50.9293],
+        title: '',
+        image: 'images/popup-8.jpg',
+        description: ''
+      },
+      {
+        name: 'pin8',
+        icon: 'images/9.png',
+        coords: [9.1854, 48.7679],
+        title: '',
+        image: 'images/popup-9.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin9',
+        icon: 'images/10.png',
+        coords: [8.545, 47.3735],
+        title: '',
+        image: 'images/popup-10-14.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin10',
+        icon: 'images/11.png',
+        coords: [8.5451, 47.3736],
+        title: '',
+        image: 'images/popup-10-14.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin11',
+        icon: 'images/12.png',
+        coords: [8.5449, 47.3737],
+        title: '',
+        image: 'images/popup-10-14.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin12',
+        icon: 'images/13.png',
+        coords: [8.5449, 47.3734],
+        title: '',
+        image: 'images/popup-10-14.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin13',
+        icon: 'images/15.png',
+        coords: [11.5733, 48.13],
+        title: '',
+        image: 'images/popup-15.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin14',
+        icon: 'images/16.png',
+        coords: [12.5720, 55.6792],
+        title: '',
+        image: 'images/popup-16.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin15',
+        icon: 'images/17.png',
+        coords: [12.5764, 55.6788],
+        title: '',
+        image: 'images/popup-17.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin16',
+        icon: 'images/18.png',
+        coords: [12.5764, 55.6815],
+        title: '',
+        image: 'images/popup-18.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin17',
+        icon: 'images/19.png',
+        coords: [12.6009, 55.6750],
+        title: '',
+        image: 'images/popup-19.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin18',
+        icon: 'images/20.png',
+        coords: [12.6002, 55.6746],
+        title: '',
+        image: 'images/popup-20.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin19',
+        icon: 'images/21.png',
+        coords: [12.6023, 55.6735],
+        title: '',
+        image: 'images/popup-21.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin20',
+        icon: 'images/22.png',
+        coords: [12.6, 55.6725],
+        title: '',
+        image: 'images/popup-22.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin21',
+        icon: 'images/23.png',
+        coords: [12.6003, 55.6727],
+        title: '',
+        image: 'images/popup-23.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin22',
+        icon: 'images/24.png',
+        coords: [12.6009, 55.673],
+        title: '',
+        image: 'images/popup-24.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin23',
+        icon: 'images/25.png',
+        coords: [13.3582, 52.4856],
+        title: '',
+        image: 'images/popup-25.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin24',
+        icon: 'images/26.png',
+        coords: [13.3560, 52.4845],
+        title: '',
+        image: 'images/popup-26.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin25',
+        icon: 'images/27.png',
+        coords: [13.3534, 52.4830],
+        title: '',
+        image: 'images/popup-27.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin26',
+        icon: 'images/28.png',
+        coords: [8.5279, 47.3725],
+        title: '',
+        image: 'images/popup-28.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin27',
+        icon: 'images/29.png',
+        coords: [8.5606, 47.3681],
+        title: '',
+        image: 'images/popup-29.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin28',
+        icon: 'images/30.png',
+        coords: [-3.1870, 55.9503],
+        title: '',
+        image: 'images/popup-30.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin29',
+        icon: 'images/31.png',
+        coords: [9.1781, 48.7739],
+        title: '',
+        image: 'images/popup-31.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin30',
+        icon: 'images/32.png',
+        coords: [8.8129, 53.0796],
+        title: '',
+        image: 'images/popup-32.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin31',
+        icon: 'images/33.png',
+        coords: [9.1799, 48.7724],
+        title: '',
+        image: 'images/popup-33.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin32',
+        icon: 'images/34.png',
+        coords: [24.9406, 60.1881],
+        title: '',
+        image: 'images/popup-34.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin33',
+        icon: 'images/35.png',
+        coords: [8.5483, 47.3664],
+        title: '',
+        image: 'images/popup-35.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin34',
+        icon: 'images/36.png',
+        coords: [12.6006, 55.6737],
+        title: '',
+        image: 'images/popup-36.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin35',
+        icon: 'images/37.png',
+        coords: [12.6008, 55.6750],
+        title: '',
+        image: 'images/popup-37.jpeg',
+        description: ''
+      },
+      {
+        name: 'pin36',
+        icon: 'images/38.png',
+        coords: [6.959, 50.9257],
+        title: '',
+        image: 'images/popup-38.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin37',
+        icon: 'images/39.png',
+        coords: [6.9601, 50.9264],
+        title: '',
+        image: 'images/popup-39.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin38',
+        icon: 'images/40.png',
+        coords: [9.9601, 53.5505],
+        title: '',
+        image: 'images/popup-40.JPG',
+        description: ''
+      },
+      {
+        name: 'pin39',
+        icon: 'images/41.png',
+        coords: [14.824, 56.844],
+        title: '',
+        image: 'images/popup-41.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin40',
+        icon: 'images/42.png',
+        coords: [8.8067, 53.0775],
+        title: '',
+        image: 'images/popup-42.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin41',
+        icon: 'images/43.png',
+        coords: [6.9570, 50.9256],
+        title: '',
+        image: 'images/popup-43.HEIC',
+        description: ''
+      },
+      {
+        name: 'pin42',
+        icon: 'images/44.png',
+        coords: [8.810, 53.0819],
+        title: '',
+        image: 'images/popup-44.HEIC',
+        description: ''
+      }
+      // 👉 Add more markers here following the same structure
+    ];
+
+    // =========================
+    // 4️⃣ Fit map bounds to markers
+    // =========================
+    const bounds = new mapboxgl.LngLatBounds();
+
+    // =========================
+    // 5️⃣ Add markers and popups
+    // =========================
+    markers.forEach(marker => {
+
+      bounds.extend(marker.coords); // expand bounds to include marker
+
+      map.loadImage(marker.icon, (error, image) => {
+        if (error) {
+          console.error('Failed to load image:', marker.icon);
+          return;
+        }
+
+        if (!map.hasImage(marker.name)) {
+          map.addImage(marker.name, image, { pixelRatio: 2 });
+        }
+
+        // Add marker source
+        map.addSource(marker.name + '-source', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [{
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: marker.coords
+              }
+            }]
+          }
+        });
+
+        // Add marker layer
+        map.addLayer({
+          id: marker.name + '-layer',
+          type: 'symbol',
+          source: marker.name + '-source',
+          layout: {
+            'icon-image': marker.name,
+            'icon-size': 0.5,
+            'icon-anchor': 'bottom',
+            'icon-allow-overlap': true
+          }
+        });
+
+
+        // Add popup on click
+        map.on('click', marker.name + '-layer', () => {
+          new mapboxgl.Popup({ offset: 25 })
+            .setLngLat(marker.coords)
+            .setHTML(`
+              <div class="popup">
+                ${marker.title ? `<h3>${marker.title}</h3>` : ''}
+                ${marker.image ? `<img src="${marker.image}" />` : ''}
+                ${marker.description ? `<p>${marker.description}</p>` : ''}
+              </div>
+            `)
+            .addTo(map);
+        });
+
+        // Change cursor on hover
+        map.on('mouseenter', marker.name + '-layer', () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', marker.name + '-layer', () => {
+          map.getCanvas().style.cursor = '';
+        });
+
+      }); // loadImage
+    }); // forEach
+
+    // Fit map to all markers
+    map.fitBounds(bounds, { padding: 80, maxZoom: 14, duration: 1000 });
+
+  }); // map load
+</script>
+
+</body>
+</html>
